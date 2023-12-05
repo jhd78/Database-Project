@@ -1,0 +1,76 @@
+Driving School ERD Code in MySQL:
+
+
+CREATE TABLE `department` (
+  `department_num` varchar(3),
+  `department_name` varchar(20),
+  `license_num` varchar(10),
+  `class_num` varchar(3),
+  KEY `pk` (`department_num`),
+  KEY `Fk` (`license_num`)
+);
+
+CREATE TABLE `classes` (
+  `class_num` varchar(3),
+  `time` timestamp,
+  `class_size` int(33),
+  KEY `pk` (`class_num`)
+);
+
+CREATE TABLE `students` (
+  `student_id` varchar(3),
+  `first_name` varchar(10),
+  `last_name` varchar(10),
+  `age` int(2),
+  `phone_num` varchar(10),
+  KEY `pk` (`student_id`)
+);
+
+CREATE TABLE `sc` (
+  `Lacture_num` varchar(6),
+  `class_num` varchar(3),
+  `student_id` varchar(3),
+  PRIMARY KEY (`Lacture_num`),
+  FOREIGN KEY (`class_num`) REFERENCES `classes`(`class_num`),
+  FOREIGN KEY (`Lacture_num`) REFERENCES `students`(`student_id`)
+);
+
+CREATE TABLE `employees` (
+  `staff_id` varchar(3),
+  `first_name` varchar(10),
+  `last_name` varchar(10),
+  `phone_num` varchar(10),
+  `email` varchar(45),
+  `address` varchar(50),
+  KEY `pk` (`staff_id`)
+);
+
+CREATE TABLE `manager` (
+  `manager_num` varchar(3),
+  `staff_id` varchar(3),
+  `department_num` varchar(3),
+  FOREIGN KEY (`staff_id`) REFERENCES `employees`(`staff_id`),
+  KEY `pk` (`manager_num`),
+  KEY `Fk` (`staff_id`, `department_num`)
+);
+
+CREATE TABLE `vehicles` (
+  `vehicle_num` varchar(3),
+  `vehicle_name` varchar(10),
+  `model` varchar(4),
+  `type` varchar(10),
+  KEY `pk` (`vehicle_num`)
+);
+
+CREATE TABLE `driving_instructor` (
+  `license_num` varchar(10),
+  `student_id` varchar(3),
+  `staff_id` varchar(3),
+  `vehicle_num` varchar(3),
+  FOREIGN KEY (`license_num`) REFERENCES `department`(`license_num`),
+  FOREIGN KEY (`staff_id`) REFERENCES `employees`(`first_name`),
+  FOREIGN KEY (`student_id`) REFERENCES `students`(`first_name`),
+  KEY `pk` (`license_num`),
+  KEY `Fk` (`vehicle_num`)
+);
+
